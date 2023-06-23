@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock%}</title>
+    <link href="{% static 'css/main.min.css' %}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
+</head>
+<body class="container mx-auto bg-stone-200">
+    
+    
+    <div class ="m-10 p-10 bg-blue-300 rounded-xl">
+      
+      <h6 class="bg-white primary-400">Manage Your day</h6>
+
+      
+
+      {% block content %}
+    
+      {% endblock %}
+      <script src="{% static 'js/htmx.min.js' %}"></script>
+    </div>
+    
+    
+    
+</body>
+</html>

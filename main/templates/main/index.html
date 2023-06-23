@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Home{% endblock%}
+
+{% block content %}
+<div class="container mx-auto">
+<h1 class="text-white">Does this Work?</h1>
+{% comment %} <div hx-get="/tasks/" hx-swap="outerHTML">Tasks</div> {% endcomment %}
+<button class="my-16 mx-auto bg-blue-500 border border-blue-500 rounded w-32 h-8">
+<a class="text-white" hx-get="/tasks/" hx-swap="outerHTML" >Zu den Tasks</a>
+</button>
+
+</div>
+{% comment %} hier kommen ein paar Links rein über reverse etc.
+vermutlich create todo
+und show todos
+
+oder
+eig müsste hier die landing page kommen mit call to action
+
+und anmelden oder login
+{% endcomment %}
+{% endblock%}
