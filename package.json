@@ -1,16 +1,8 @@
 {
-  "watch": {
-    "build": {
-      "patterns": [
-        "main"
-      ],
-      "extensions": "html",
-      "quiet": false
-    }
-  },
+
   "scripts": {
     "build": "postcss static/css/main.css -o static/css/main.min.css; cp node_modules/htmx.org/dist/htmx.min.js static/js/htmx.min.js",
-    "watch": "npm-watch"
+    "watch": "tailwindcss -i static/css/main.css -o static/css/main.min.css --watch"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
