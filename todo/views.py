@@ -42,12 +42,12 @@ def edit_description(request,task_id, pk):
 
 @require_http_methods(['POST'])
 def add_todo(request, task_id):
-    # todo = None
+    todo = None
     task = get_object_or_404(Task, id=task_id)
     title = request.POST.get('title', '')
 
     if title:
-        todo = Todo.objects.create(task=task_id, title=title)
+        todo = Todo.objects.create(task=task, title=title)
     
     return render(request, 'todo/partials/todo.html', {'task': task, 'todo': todo})
 
