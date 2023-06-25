@@ -1,13 +1,20 @@
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 
-from .models import Todo
+from .models import Task, Todo
 
-def todos(request):
-    todos = Todo.objects.all()
+def tasks(request):
+    tasks = Task.objects.all()
+    return render(request, 'todo/tasks.html', {'tasks': tasks})
 
-    return render(request, 'todo/todos.html', {'todos': todos})
+
+def todos(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    todos = task.steps.all()
+
+    return render(request, 'todo/todos.html', {'task': task, 'todos': todos})
+
 
 @require_http_methods(['GET', 'POST'])
 def edit_todo(request, pk):
@@ -21,7 +28,8 @@ def edit_todo(request, pk):
     
     return render(request, 'todo/partials/edit-todo.html', {'todo': todo})
 
-def edit_description(request, pk):
+def edit_description(request,task_id, pk):
+    task = get_object_or_404(Task, id=task_id)
     todo = Todo.objects.get(pk=pk)
 
     if request.method == 'POST':
@@ -30,17 +38,18 @@ def edit_description(request, pk):
 
         return render(request, 'todo/partials/todo.html', {'todo': todo})
     
-    return render(request, 'todo/partials/edit-description.html', {'todo': todo})
+    return render(request, 'todo/partials/edit-description.html', {'task': task, 'todo': todo})
 
 @require_http_methods(['POST'])
-def add_todo(request):
-    todo = None
+def add_todo(request, task_id):
+    # todo = None
+    task = get_object_or_404(Task, id=task_id)
     title = request.POST.get('title', '')
 
     if title:
-        todo = Todo.objects.create(title=title)
+        todo = Todo.objects.create(task=task_id, title=title)
     
-    return render(request, 'todo/partials/todo.html', {'todo': todo})
+    return render(request, 'todo/partials/todo.html', {'task': task, 'todo': todo})
 
 @require_http_methods(['PUT'])
 def update_todo(request, pk):
@@ -51,8 +60,8 @@ def update_todo(request, pk):
     return render(request, 'todo/partials/todo.html', {'todo': todo})
 
 @require_http_methods(['DELETE'])
-def delete_todo(request, pk):
-    todo = Todo.objects.get(pk=pk)
+def delete_todo(request, task_id, pk):
+    todo = Todo.objects.get(pk=pk, id=task_id)
     todo.delete()
 
     return HttpResponse()

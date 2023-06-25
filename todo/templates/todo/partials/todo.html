@@ -2,18 +2,16 @@
     <div class="col-span-3 py-3">
         <p 
             class="px-6 text-xs text-gray-900"
-            hx-get="/edit-todo/{{ todo.id }}/"
+            hx-get="/tasks/{{ task.id }}/edit-todo/{{ todo.id }}/"
             hx-target="this"
             hx-swap="outerHTML"
         >
-            {{ todo.title }}
+            <h2 class="text-sky-500 ml-6">{{ todo.title }}</h2>
         </p>
-    </div>
-
-    <div class="col-span-1 py-3">
+    
         <p 
-            class="max-w-xl px-6 text-xs text-gray-900 break-words"
-            hx-get="/edit-description/{{ todo.id }}/"
+            class="max-w-full px-6 text-xs text-gray-900 break-words"
+            hx-get="/tasks/{{ task.id }}/edit-description/{{ todo.id }}/"
             hx-target="this"
             hx-swap="outerHTML"
             hx-trigger="click"
@@ -21,7 +19,7 @@
         {{ todo.description|default:"Enter description!" }}
     </p>
     <textarea 
-        id="edit-description-{{ todo.id }}" 
+        id="tasks/{{ task.id }}/edit-description/{{ todo.id }}" 
         style="display: none; resize: vertical;"
         placeholder="Enter description..."
     ></textarea>
@@ -31,7 +29,7 @@
     <div class="col-span-1 px-6 py-3 flex justify-end space-x-4">
         {% if not todo.is_done %}
             <form
-                hx-put="/update/{{ todo.id }}/"
+                hx-put="/tasks/{{ task.id }}/update/{{ todo.id }}/"
                 hx-target="closest article"
                 hx-swap="outerHTML"
             >
@@ -47,7 +45,7 @@
             hx-confirm="Are you sure?"
             hx-target="closest article"
             hx-swap="outerHTML swap:1s"
-            hx-delete="/delete/{{ todo.id }}/"
+            hx-delete="/tasks/{{ task.id }}/delete/{{ todo.id }}/"
         >
             Delete
         </a>

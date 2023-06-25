@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tailwind Todo - Tasks</title>
+    <!-- Weitere Stylesheets und Skripte hier einfügen -->
+</head>
+<body class="bg-sky-500">
+    <nav class="flex items-center justify-between px-4 py-6 text-center bg-gradient-to-r from-cyan-500 to-sky-500">
+        <a href="/" class="text-2xl text-white">Task Todos</a>
+    </nav>
+
+    <div class="w-4/5 my-6 mx-auto p-2 lg:p-10 bg-white rounded-xl">
+        <h1 class="text-3xl font-bold mb-6">Tasks</h1>
+
+        <ul class="divide-y divide-gray-200">
+            {% for task in tasks %}
+                <li class="py-4">
+                    <a href="{% url 'todos' task.id %}" class="text-sky-600 hover:text-sky-900">{{ task.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% comment %} <a href="{% url 'todos' task.id %}" class="text-sky-600 hover:text-sky-900">View Todos</a> {% endcomment %}
+
+    <!-- Weitere Inhalte und Skripte hier einfügen -->
+</body>
+</html>
+
+
+
