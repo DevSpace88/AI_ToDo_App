@@ -52,7 +52,8 @@ def add_todo(request, task_id):
     return render(request, 'todo/partials/todo.html', {'task': task, 'todo': todo})
 
 @require_http_methods(['PUT'])
-def update_todo(request, pk):
+def update_todo(request, task_id, pk):
+    task = get_object_or_404(Task, id=task_id)
     todo = Todo.objects.get(pk=pk)
     todo.is_done = True
     todo.save()
@@ -61,7 +62,8 @@ def update_todo(request, pk):
 
 @require_http_methods(['DELETE'])
 def delete_todo(request, task_id, pk):
-    todo = Todo.objects.get(pk=pk, id=task_id)
+    task = get_object_or_404(Task, id=task_id)
+    todo = Todo.objects.get(pk=pk)
     todo.delete()
 
     return HttpResponse()
