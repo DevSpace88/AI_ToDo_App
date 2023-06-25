@@ -19,7 +19,18 @@ def edit_todo(request, pk):
 
         return render(request, 'todo/partials/todo.html', {'todo': todo})
     
-    return render(request, 'todo/partials/edit.html', {'todo': todo})
+    return render(request, 'todo/partials/edit-todo.html', {'todo': todo})
+
+def edit_description(request, pk):
+    todo = Todo.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        todo.description = request.POST.get("description", "")
+        todo.save()
+
+        return render(request, 'todo/partials/todo.html', {'todo': todo})
+    
+    return render(request, 'todo/partials/edit-description.html', {'todo': todo})
 
 @require_http_methods(['POST'])
 def add_todo(request):

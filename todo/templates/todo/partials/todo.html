@@ -1,8 +1,8 @@
-<article class="flex{% if todo.is_done %} bg-green-50{% endif %}">
-    <div class="w-4/5 py-3">
+<article class="grid grid-cols-4 gap-4{% if todo.is_done %} bg-green-50{% endif %}">
+    <div class="col-span-3 py-3">
         <p 
             class="px-6 text-xs text-gray-900"
-            hx-get="/edit/{{ todo.id }}/"
+            hx-get="/edit-todo/{{ todo.id }}/"
             hx-target="this"
             hx-swap="outerHTML"
         >
@@ -10,7 +10,25 @@
         </p>
     </div>
 
-    <div class="w-1/5 px-6 py-3 flex justify-end space-x-4">
+    <div class="col-span-1 py-3">
+        <p 
+            class="max-w-xl px-6 text-xs text-gray-900 break-words"
+            hx-get="/edit-description/{{ todo.id }}/"
+            hx-target="this"
+            hx-swap="outerHTML"
+            hx-trigger="click"
+    >
+        {{ todo.description|default:"Enter description!" }}
+    </p>
+    <textarea 
+        id="edit-description-{{ todo.id }}" 
+        style="display: none; resize: vertical;"
+        placeholder="Enter description..."
+    ></textarea>
+
+    </div>
+
+    <div class="col-span-1 px-6 py-3 flex justify-end space-x-4">
         {% if not todo.is_done %}
             <form
                 hx-put="/update/{{ todo.id }}/"
