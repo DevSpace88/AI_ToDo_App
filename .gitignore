@@ -3,3 +3,6 @@
 *.pyc
 *.db
 *.sqlite3
+*chroma_db/
+*.env
+*code_contents.txt

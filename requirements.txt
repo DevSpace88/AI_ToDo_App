@@ -1,0 +1,7 @@
+django
+pathlib
+urllib
+beautifulsoup4
+requests
+dotenv
+langchain

@@ -1,0 +1,49 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}Task Detail{% endblock%}
+
+{% block content %}
+
+<div class="w-4/5 my-6 mx-auto p-2 lg:p-10 bg-white rounded-xl">
+    <div class="flex justify-between items-center">
+        
+        <a href="/" class="text-3xl text-gray-800 mx-4 ml-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+            </svg>              
+        </a>
+    </div>
+    <h1 class="flex justify-center items-center text-3xl text-gray-800 h-16">Todo</h1>
+
+    
+    <form 
+        class="flex mb-6 space-x-4"
+        hx-post="/tasks/{{ task.id }}/add-todo/"
+        hx-target="#todos"
+        hx-swap="afterend"
+    >
+        <input type="text" name="title" class="title flex-1 px-4 py-3 bg-gray-200 rounded-xl" placeholder="Enter Todo" required>
+
+        <button class="p-3 rounded-xl text-white bg-cyan-500 hover:bg-cyan-600">+</button>
+    </form>
+
+    <div class="divide-y divide-gray-200" id="todos">
+        {% for todo in todos %}
+            {% include 'todo/partials/todo.html' %}
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/htmx.org@1.6.1"></script>
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+
+    document.body.addEventListener('htmx:afterRequest', (event) => {
+        document.querySelector("input.title").value = '';
+    });
+</script>
+
+{% endblock %}
