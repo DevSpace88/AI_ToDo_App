@@ -4,15 +4,25 @@
 
 {% block content %}
 
-<div class="w-4/5 my-6 mx-auto p-2 lg:p-10 bg-white rounded-xl">
-    <h1 class="flex justify-center items-center text-3xl font-bold mb-6 text-gray-800 h-16">Tasks</h1>
+<div class="w-4/5 my-6 px-4 mx-auto py-2 lg:p-10 bg-white rounded-xl">
+    <h1 class="flex justify-center items-center text-3xl mb-6 text-gray-800 h-16">Tasks</h1>
 
-   <form action="/tasks/create-task/" method="post" class="flex justify-center">
-        {% csrf_token %}
-        <input type="text" name="task" class="title flex-1 px-4 py-3 bg-gray-200 rounded-xl" placeholder="Enter Task" required>
-        <button type="submit" class="p-3 rounded-xl text-white bg-cyan-500 hover:bg-cyan-600">Create Task</button>
-    </form>
-    
+    <div class="flex justify-center mb-10">
+        <div class="flex flex-col">
+            <form action="/tasks/create-task/" method="post">
+                {% csrf_token %}
+                <input type="text" name="task" class="title max-w-lg w-96 px-4 py-3 bg-gray-200 rounded-xl mb-4" placeholder="Enter Task" required>
+                <button type="submit" class="w-16 px-6 py-3 rounded-xl text-white bg-cyan-500 hover:bg-cyan-600">+</button>
+            </form>
+            
+            <form action="/tasks/create-ai-task/" method="post">
+                {% csrf_token %}
+                <input type="text" name="task" class="title max-w-lg w-96 px-4 py-3 bg-gray-200 rounded-xl mb-4" placeholder="Enter AI-Task" required>
+                <button type="submit" class="w-16 px-6 p-3 rounded-xl text-white bg-cyan-500 hover:bg-cyan-600">AI</button>
+            </form>
+        </div>
+    </div>
+
         
 
     <ul class="divide-y divide-gray-200">

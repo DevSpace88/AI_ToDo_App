@@ -20,8 +20,15 @@ def todos(request, task_id):
     
     return render(request, 'todo/todos.html', {'task': task, 'todos': todos})
 
-
+# normal create_task-function
 def create_task(request):
+    name = request.POST.get('task', '')
+    task = Task.objects.create(name=name)
+    todos = task.steps.all()
+    
+    return redirect(reverse('todos', kwargs={'task_id': task.id}))
+
+def create_ai_task(request):
     if request.method == 'POST':
         query = request.POST.get('task', '')
         context = """

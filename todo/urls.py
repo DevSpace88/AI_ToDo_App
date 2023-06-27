@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from todo.views import tasks, todos, add_todo, update_todo, delete_todo, edit_todo, edit_description, create_task, delete_task
+from todo.views import tasks, todos, add_todo, update_todo, delete_todo, edit_todo, edit_description, create_task, create_ai_task, delete_task
 
 urlpatterns = [
     # path('tasks/', tasks, name='tasks'),
@@ -18,5 +18,6 @@ urlpatterns = [
 
     
     path('tasks/create-task/', create_task, name='create_task'),
+    path('tasks/create-ai-task/', create_ai_task, name='create_ai_task'),
     path('tasks/delete/<int:task_id>/', delete_task, name='delete_task'),
 ]
