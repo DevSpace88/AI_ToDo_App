@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.chat_models import ChatOpenAI
@@ -8,11 +9,16 @@ load_dotenv()
 
 CHROMA_DB_DIRECTORY = "chroma_db/ask_django_docs"
 
-class Context:
-    def __init__(self):
-        self.previous_question = None
 
-previous_context = Context()
+def check_file_content():
+    filename = 'code_contents.txt'
+
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            content = file.read()
+        return content
+    else:
+        return False
 
 def answer_query(query, context):
     embeddings = OpenAIEmbeddings()
@@ -30,25 +36,12 @@ def answer_query(query, context):
         chain_type_kwargs={"verbose": True}
     )
     
-    if previous_context.previous_question:
-        query = f"Consider the following as a previous question {previous_context.previous_question}/ and answer the following query in context: {query}"
-    if context:
-        query = f"{context} {query}"
+    if context and check_file_content():
+        file = check_file_content()
+        query = f"{context} \n This is my Code so far: \n {file} \n {query}"
+    elif context:
+        query = f"{context} {query}"  
+    
     
     result = chain({"question": query}, return_only_outputs=True)
     return result
-
-# def main():
-#     while True:
-#         query = input("Ask a question related to Django (or 'q' to quit): ")
-#         if query == "q":
-#             break
-        
-#         result = answer_query(query)
-
-#         print(result["answer"])
-#         print(result["sources"])
-
-
-# if __name__ == "__main__":
-#     main()

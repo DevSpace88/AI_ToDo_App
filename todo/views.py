@@ -31,14 +31,14 @@ def create_ai_task(request):
     if request.method == 'POST':
         query = request.POST.get('task', '')
         context = """
-            I need a step-by-step guide along with the corresponding code to solve the task. The answer should be a doable step to code something. Divide answer into small coding steps with a title and a description. print the answer in a json datastructure, that looks like the example below. If there are several points in one description just divide it further into smaller todos with steps, but only if it is necessary. In the json, summarize what the user asked in a short sentence that sounds like a todo-task and print it as value for the "name"-key. The titles should never have the character of a question, but of a todo list todo title. Never print anything, that only refers the user to go to the django documentation. You can refer to the specfic documentation of the current step as a link as the last point in the description. Please orient yourself on the example json below, dont forget that every todo has a order that is basically the current step number that also should be printed in the datastructure. Print nothing else besides this JSON-Datastructure. If an error occures, still print the same data structure but with error in title and error in description.  It should look like this example:
+            I need a step-by-step guide along with the corresponding code to solve the task. The answer should be a doable step to code something. Divide answer into small coding steps with a title and a description. print the answer in a json datastructure, that looks like the example below. If there are several points in one description just divide it further into smaller todos with steps, but only if it is necessary. In the json, summarize what the user asked in a short sentence that sounds like a todo-task and print it as value for the "name"-key. The titles should never have the character of a question, but of a todo list todo title. Never print anything, that only refers the user to go to the django documentation. You can refer to the specfic documentation of the current step as a link as the last point in the description. Please orient yourself on the example json below, dont forget that every todo has a order that is basically the current step number that also should be printed in the datastructure. Print nothing else besides this JSON-Datastructure. If an error occures, still print the same data structure but with error in title and error in description. Dont user square brackets only curved brackets! It should look like the following example:
         
             {
                 "task": {
                     "name": "Task Name",
                     "steps": [
                         {
-                            "title": "Todo 1",
+                            "title": "Step 1: Todoname 1",
                             "description": "Provide a detailed description of the first step, explaining what needs to be done to solve the problem.
                             
                             code:
@@ -52,7 +52,7 @@ def create_ai_task(request):
                             "order": 1,
                         },
                         {
-                            "title": "Todoname 2",
+                            "title": "Step 2: Todoname 2",
                             "description": "Provide a detailed description of the second step, explaining what needs to be done to proceed.
                             
                             code:
@@ -61,7 +61,7 @@ def create_ai_task(request):
                             
                             Additional Information:
                             Include any additional information that may be relevant to the problem, such as the programming language you are using or specific constraints that need to be considered.
-                            https://docs.djangoproject.com/en/4.2/topics/db/models/#verbose-field-names,
+                            source: https://docs.djangoproject.com/en/4.2/topics/db/models/#verbose-field-names,
                             "is_done": False,
                             "order": 2,
                         }
