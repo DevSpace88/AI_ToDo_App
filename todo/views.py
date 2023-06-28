@@ -2,7 +2,6 @@ import json
 
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.views.decorators.http import require_http_methods
 
 from utils.db_query import answer_query
 
@@ -32,7 +31,7 @@ def create_ai_task(request):
     if request.method == 'POST':
         query = request.POST.get('task', '')
         context = """
-            Never print anything, that refers the user to go to the django documentation. The answer should be a doable step to code something. Divide answer into small coding steps with a title and a description. print the answer in a json datastructure, that looks like the example below. If there are several points in one description you can use - as a bullet point, but only if it is necessary. In the json, summarize what the user asked in short sentence that sounds like a todo-task and print it as value for the "name"-key. The titles should never have the character of a question, but of a todo list todo title. Print nothing else besides this JSON-Datastructure. If an error occures, print the same data structure but with error in title and error in description.  It should look like this example:
+            I need a step-by-step guide along with the corresponding code to solve the task. The answer should be a doable step to code something. Divide answer into small coding steps with a title and a description. print the answer in a json datastructure, that looks like the example below. If there are several points in one description just divide it further into smaller todos with steps, but only if it is necessary. In the json, summarize what the user asked in a short sentence that sounds like a todo-task and print it as value for the "name"-key. The titles should never have the character of a question, but of a todo list todo title. Never print anything, that only refers the user to go to the django documentation. You can refer to the specfic documentation of the current step as a link as the last point in the description. Please orient yourself on the example json below, dont forget that every todo has a order that is basically the current step number that also should be printed in the datastructure. Print nothing else besides this JSON-Datastructure. If an error occures, still print the same data structure but with error in title and error in description.  It should look like this example:
         
             {
                 "task": {
@@ -40,13 +39,29 @@ def create_ai_task(request):
                     "steps": [
                         {
                             "title": "Todo 1",
-                            "description": "Description 1",
+                            "description": "Provide a detailed description of the first step, explaining what needs to be done to solve the problem.
+                            
+                            code:
+
+                            // Place the code for the second step here
+                            
+                            Additional Information:
+                            Include any additional information that may be relevant to the problem, such as the programming language you are using or specific constraints that need to be considered.
+                            https://docs.djangoproject.com/en/4.2/topics/db/models/",
                             "is_done": False,
                             "order": 1,
                         },
                         {
-                            "title": "Todo 2",
-                            "description": "Description 2",
+                            "title": "Todoname 2",
+                            "description": "Provide a detailed description of the second step, explaining what needs to be done to proceed.
+                            
+                            code:
+
+                            // Place the code for the second step here
+                            
+                            Additional Information:
+                            Include any additional information that may be relevant to the problem, such as the programming language you are using or specific constraints that need to be considered.
+                            https://docs.djangoproject.com/en/4.2/topics/db/models/#verbose-field-names,
                             "is_done": False,
                             "order": 2,
                         }
@@ -66,18 +81,17 @@ def create_ai_task(request):
         steps = parsed_answer['task']['steps']
 
         task = Task.objects.create(name=task_name)
-
+        order= 0
         for step in steps:
             title = step['title']
             description = step['description']
             is_done = False
-            order = step['order']
+            order += 1
             Todo.objects.create(task=task, title=title, description=description, is_done=is_done, order=order)
 
         return redirect(reverse('todos', kwargs={'task_id': task.id}))
 
      
-@require_http_methods(['GET', 'POST'])
 def edit_todo(request, task_id, pk):
     task = get_object_or_404(Task, id=task_id)
     todo = Todo.objects.get(pk=pk)
@@ -93,7 +107,6 @@ def edit_todo(request, task_id, pk):
     return render(request, 'todo/partials/edit-todo.html', {'task': task, 'todo': todo})
 
 
-@require_http_methods(['GET', 'POST'])
 def edit_description(request,task_id, pk):
     task = get_object_or_404(Task, id=task_id)
     todo = Todo.objects.get(pk=pk)
@@ -108,7 +121,6 @@ def edit_description(request,task_id, pk):
     
     return render(request, 'todo/partials/edit-description.html', {'task': task, 'todo': todo})
 
-@require_http_methods(['POST'])
 def add_todo(request, task_id):
     todo = None
     task = get_object_or_404(Task, id=task_id)
@@ -119,7 +131,6 @@ def add_todo(request, task_id):
     
     return render(request, 'todo/partials/todo.html', {'task': task, 'todo': todo})
 
-@require_http_methods(['PUT'])
 def update_todo(request, task_id, pk):
     task = get_object_or_404(Task, id=task_id)
     todo = Todo.objects.get(pk=pk)
@@ -128,7 +139,7 @@ def update_todo(request, task_id, pk):
 
     return render(request, 'todo/partials/todo.html', {'task': task, 'todo': todo})
 
-@require_http_methods(['DELETE'])
+
 def delete_todo(request, task_id, pk):
     task = get_object_or_404(Task, id=task_id)
     todo = Todo.objects.get(pk=pk)
