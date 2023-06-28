@@ -15,7 +15,6 @@ def build_database():
     # We are using the function that's defined in scraper.py
     urls = django_docs_build_urls()
 
-    # We can do the scraping ourselves and only look for .docs-content
     loader = WebBaseLoader(urls)
     documents = loader.load()
 

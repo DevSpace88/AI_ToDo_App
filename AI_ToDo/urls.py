@@ -25,6 +25,5 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    # do not do this in prod
     from django.conf.urls.static import static
     urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

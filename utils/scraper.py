@@ -9,7 +9,6 @@ import requests
 
 def django_docs_build_urls():
     root_url = "https://docs.djangoproject.com/en/4.2/contents/"
-    # root_url = "https://htmx.org/docs/"
     root_response = requests.get(root_url)
     root_html = root_response.content.decode("utf-8")
     soup = BeautifulSoup(root_html, 'html.parser')

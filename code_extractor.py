@@ -1,10 +1,10 @@
 import os
 
 def extract_code_files(folder_path, output_file):
-    script_file = os.path.basename(__file__)  # Name der aktuellen Skriptdatei
+    script_file = os.path.basename(__file__)  # Name of current running script file
     with open(output_file, 'w') as f:
         for root, dirs, files in os.walk(folder_path):
-            # Ausschließen der Ordner "static" und "node_modules"
+            # Exclude folders "static" und "node_modules"
             if 'static' in dirs:
                 dirs.remove('static')
             if 'node_modules' in dirs:

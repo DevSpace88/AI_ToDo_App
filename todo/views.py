@@ -12,7 +12,6 @@ def tasks(request):
     tasks = Task.objects.all()
     return render(request, 'todo/tasks.html', {'tasks': tasks})
 
-
 def todos(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     todos = task.steps.all()
@@ -82,6 +81,7 @@ def create_ai_task(request):
 
         task = Task.objects.create(name=task_name)
         order= 0
+        
         for step in steps:
             title = step['title']
             description = step['description']
@@ -114,7 +114,7 @@ def edit_description(request,task_id, pk):
     if request.method == 'POST':
         todo.description = request.POST.get("description", "")
         
-        if todo.description.strip():  # Check if the updated title is not empty after stripping whitespace
+        if todo.description.strip():  # Check if the updated description is not empty after stripping whitespace
             todo.save()
 
         return render(request, 'todo/partials/todo.html', {'task': task, 'todo': todo})
@@ -139,14 +139,12 @@ def update_todo(request, task_id, pk):
 
     return render(request, 'todo/partials/todo.html', {'task': task, 'todo': todo})
 
-
 def delete_todo(request, task_id, pk):
     task = get_object_or_404(Task, id=task_id)
     todo = Todo.objects.get(pk=pk)
     todo.delete()
 
     return HttpResponse()
-
 
 def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
