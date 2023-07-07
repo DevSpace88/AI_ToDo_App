@@ -7,7 +7,8 @@ You can still change the steps /todos dynamically afterwards. You can also just 
 ![grafik](https://github.com/DevSpace88/AI_ToDo_App/assets/102557040/8b4a9a98-5b4a-4be9-add3-7db002a80dde)
 
 
-![grafik](https://github.com/DevSpace88/AI_ToDo_App/assets/102557040/5cec5087-6d01-4adb-9e2b-b69882b80e0c)
+![grafik](https://github.com/DevSpace88/AI_ToDo_App/assets/102557040/373d679b-9abd-4969-8ff0-c6a0f9a10b6a)
+
 
 
 first you have to run `db_builder.py`
