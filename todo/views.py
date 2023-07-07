@@ -29,6 +29,10 @@ def create_task(request):
 def create_ai_task(request):
     if request.method == 'POST':
         query = request.POST.get('task', '')
+        
+        if len(query) > 100:
+            return redirect('tasks')
+        
         context = """
             I need a step-by-step guide along with the corresponding code to solve the task. The answer should be a doable step to code something. Divide answer into small coding steps with a title and a description. print the answer in a json datastructure, that looks like the example below. If there are several points in one description just divide it further into smaller todos with steps, but only if it is necessary. In the json, summarize what the user asked in a short sentence that sounds like a todo-task and print it as value for the "name"-key. The titles should never have the character of a question, but of a todo list todo title. Never print anything, that only refers the user to go to the django documentation. You can refer to the specfic documentation of the current step as a link as the last point in the description. Please orient yourself on the example json below, dont forget that every todo has a order that is basically the current step number that also should be printed in the datastructure. Print nothing else besides this JSON-Datastructure. If an error occures, still print the same data structure but with error in title and error in description. Dont user square brackets only curved brackets! It should look like the following example:
         

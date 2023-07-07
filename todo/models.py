@@ -16,7 +16,7 @@ class Todo(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     is_done = models.BooleanField(default=False)
-    order = models.PositiveIntegerField(auto_created=True)
+    order = models.PositiveIntegerField()
     
     class Meta:
         unique_together = ['task', 'order']

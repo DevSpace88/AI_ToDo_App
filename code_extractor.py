@@ -14,7 +14,7 @@ def extract_code_files(folder_path, output_file):
                 file_path = os.path.join(root, file)
                 if is_code_file(file_path) and file != script_file:
                     relative_path = os.path.relpath(file_path, folder_path)
-                    f.write(f"{relative_path}:\n")
+                    f.write(f"## {relative_path}:\n")
                     with open(file_path, 'r') as code_file:
                         code_content = code_file.read()
                         f.write(code_content)

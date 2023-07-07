@@ -17,7 +17,7 @@
             
             <form action="/tasks/create-ai-task/" method="post">
                 {% csrf_token %}
-                <input type="text" name="task" class="title max-w-lg w-96 px-4 py-3 bg-gray-200 rounded-xl mb-4" placeholder="Enter AI-Task" required>
+                <input type="text" name="task" class="title max-w-lg w-96 px-4 py-3 bg-gray-200 rounded-xl mb-4" placeholder="Enter AI-Task" maxlength="100" required>
                 <button type="submit" class="w-16 px-6 p-3 rounded-xl text-white bg-cyan-500 hover:bg-cyan-600">AI</button>
             </form>
         </div>
